@@ -7,29 +7,40 @@
 </head>
 <body>
 <div class="header">
-  <a href="index.php">
+  <a href="http://192.168.3.10">
     <img class="logo" src="logo.png">
   </a>
-  <a href="upload.html">Upload</a>
+  <a href="http://192.168.3.13">Reminder</a>
   <a href="http://192.168.3.12">Admin</a>
 </div>
-<div class="parent">
-<?php
-  include 'dbConfig.php';
+<div class="formparent">
+<form action="setSettings.php" method="post" enctype="multipart/form-data">
+        Change Bargain Finder search settings:
+        <label for="search_string">String to search for: </label>
+        <input type="text" name="search_string">
+        <label for="open_time">Select a time to start searching for listings:</label>
+        <input type="time" id="open_time" name="open_time">
+        <label for="close_time">Select a time to stop searching for listings:</label>
+        <input type="time" id="close_time" name="close_time">
+        <button name="btn">Change settings</button>
+    </form>
+  </div>
+  <div class="parent">
+    <?php
+      include 'dbConfig.php';
+        
+      $q = $conn->query("SELECT * FROM settings");
     
-  $q = $conn->query("SELECT * FROM files");
-
-  while($row = $q->fetch()){
-  echo "<div class='box'>
-    <embed src='data:".$row['datatype'].";base64,".base64_encode($row['data'])."'/>
-    <a class='download' target='_blank' href='download.php?id=".$row['id']."'>
-      Download ".$row['name']."
-    </a>
-  </div>";
-}
-
-?>
-</div>
-
+      while($row = $q->fetch()){
+      echo "The current search settings: 
+      <ul style='list-style-type:none;>
+        <li>Search String =  ".$row['search_string']."</li>
+        <li>Open Time =  ".$row['open_time']."</li>
+        <li>Close Time =  ".$row['close_time']."</li>
+      </ul>";
+    }
+    
+    ?>
+    </div>
 </body>
 </html>

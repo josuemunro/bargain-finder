@@ -10,6 +10,8 @@
   <a href="index.php">
     <img class="logo" src="logo.png">
   </a>
+  <a href="http://192.168.3.13">Reminder</a>
+  <a href="http://192.168.3.12">Admin</a>
 </div>
 <div class="parent">
 <?php
@@ -44,9 +46,10 @@ if ($response === false)
 }
 curl_close($curl);
 
-echo $response;
-
 $response = json_decode($response, true); //because of true, it's in an array
+
+print_r($response['List'][0]);
+// echo $response[0];
 
 foreach($response as $List){
   foreach($List as $value){

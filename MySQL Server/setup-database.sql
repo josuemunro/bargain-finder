@@ -1,7 +1,7 @@
 CREATE TABLE settings (
     search_string varchar(255) NOT NULL,
-    open_datetime int(13) NOT NULL,
-    close_datetime int(13) NOT NULL
+    open_time TIME NOT NULL,
+    close_time TIME NOT NULL
 );
 
 CREATE TABLE favourites (
