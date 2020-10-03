@@ -15,6 +15,7 @@
 </div>
 <div class="parent">
 <?php
+include 'dbConfig.php';
 $curl = curl_init();
 
 $headr = array();
@@ -48,16 +49,60 @@ curl_close($curl);
 
 $response = json_decode($response, true); //because of true, it's in an array
 
-print_r($response['List'][0]);
-// echo $response[0];
+// print_r($response['List'][0]);
+$listing_list = $response['List'];
+$q = $conn->query("SELECT * FROM settings");
+$row = $q->fetch();
+// print_r($row);
+$search_string = $row['search_string'];
+$open_time = $row['open_time'];
+$close_time = $row['close_time'];
 
-foreach($response as $List){
-  foreach($List as $value){
-    if ($value['BuyNowPrice'] === 150.0) {
-      echo "Buy Now Price:". $value['BuyNowPrice'];
-    }
-  
+  echo "The current search settings: 
+  <ul style='list-style-type:none;'>
+    <li>Search String =  ".$search_string."</li>
+    <li>Open Time =  ".$open_time."</li>
+    <li>Close Time =  ".$close_time."</li>
+  </ul>";
+
+foreach($listing_list as $item) {
+  $EndDate = preg_replace( '/[^0-9]/', '', $item['EndDate']);
+  // echo $EndDate. "\n";
+  $time_of_day = date("H : i", $EndDate / 1000);
+  if (isWithinTimeRange($open_time, $close_time, $time_of_day)){
+    echo "<ul style='list-style-type:none;'>
+        <li>".$item['Title']."</li>
+        <li>".$item['PriceDisplay']."</li>
+        <li>Buy Now Price: ".$item['BuyNowPrice']."</li>
+        <li>Ending on: ".date("l d F o ")." at ".$time_of_day."</li>
+      </ul>";
   }
+  // $EndDate = preg_replace( '/[^0-9]/', '', $EndDate['Date']);
+  // $time_of_day = date('H : i', $EndDate);
+  // echo $time_of_day;
+}
+
+function isWithinTimeRange($start, $end, $check_time){
+
+  $now = $check_time;
+
+  // time frame rolls over midnight
+  if($start > $end) {
+
+      // if current time is past start time or before end time
+
+      if($now >= $start || $now < $end){
+          return true;
+      }
+  }
+
+  // else time frame is within same day check if we are between start and end
+
+  else if ($now >= $start && $now <= $end) {
+      return true;
+  }
+
+  return false;
 }
 ?>
 </div>
