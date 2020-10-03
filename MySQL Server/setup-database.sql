@@ -5,11 +5,14 @@ CREATE TABLE settings (
 );
 
 CREATE TABLE favourites (
-	listing_id int(10) NOT NULL,
+	listing_id varchar(255) NOT NULL,
 	title varchar(255) NOT NULL,
-	end_datetime int(13) NOT NULL,
+	end_datetime varchar(255) NOT NULL,
 	PRIMARY KEY (listing_id)
 );
+
+INSERT INTO settings (search_string, open_time, close_time) 
+VALUES ('house' ,'11:00', '2:00');
 
 
 

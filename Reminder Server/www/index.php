@@ -7,24 +7,28 @@
 </head>
 <body>
 <div class="header">
-  <a href="index.php">
+  <a href="http://192.168.3.10">
     <img class="logo" src="logo.png">
   </a>
-  <a href="upload.html">Upload</a>
+  <a href="upload.html">Reminder</a>
   <a href="http://192.168.3.12">Admin</a>
 </div>
 <div class="parent">
 <?php
   include 'dbConfig.php';
     
-  $q = $conn->query("SELECT * FROM files");
+  $q = $conn->query("SELECT * FROM favourites");
 
   while($row = $q->fetch()){
   echo "<div class='box'>
-    <embed src='data:".$row['datatype'].";base64,".base64_encode($row['data'])."'/>
-    <a class='download' target='_blank' href='download.php?id=".$row['id']."'>
-      Download ".$row['name']."
-    </a>
+  <ul style='list-style-type:none;'>
+        <li>".$row['title']."</li>
+        <li>".$row['end_datetime']."</li>
+        <li><a href='https://tmsandbox.co.nz/Browse/Listing.aspx?id=".$row['listing_id']."'>Go to the listing page</a></li>
+        <li>
+        </li>
+      </ul>
+
   </div>";
 }
 

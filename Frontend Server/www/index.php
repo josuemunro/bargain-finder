@@ -17,6 +17,14 @@
 <?php
 include 'dbConfig.php';
 $curl = curl_init();
+$q = $conn->query("SELECT * FROM settings");
+$row = $q->fetch();
+// print_r($row);
+$search_string = $row['search_string'];
+$open_time = $row['open_time'];
+$close_time = $row['close_time'];
+
+$url = "https://api.tmsandbox.co.nz/v1/Search/General.json?sort_order=expiry_asc&rows=500&cid=2&searchString=".$search_string."";
 
 $headr = array();
 $headr[] = 'Content-length: 0';
@@ -28,7 +36,7 @@ $headr[] = 'Authorization: OAuth oauth_consumer_key=21037302176B01C359C079657F28
 // $headr[] = 'Authorization: OAuth wrongauthorization';
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.tmsandbox.co.nz/v1/Search/General.json?searchString=iphone",
+  CURLOPT_URL => $url,
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_TIMEOUT => 30,
   CURLOPT_FAILONERROR => true,
@@ -51,12 +59,6 @@ $response = json_decode($response, true); //because of true, it's in an array
 
 // print_r($response['List'][0]);
 $listing_list = $response['List'];
-$q = $conn->query("SELECT * FROM settings");
-$row = $q->fetch();
-// print_r($row);
-$search_string = $row['search_string'];
-$open_time = $row['open_time'];
-$close_time = $row['close_time'];
 
   echo "The current search settings: 
   <ul style='list-style-type:none;'>
@@ -66,6 +68,7 @@ $close_time = $row['close_time'];
   </ul>";
 
 foreach($listing_list as $item) {
+  $listing_ID = $item['ListingId'];
   $EndDate = preg_replace( '/[^0-9]/', '', $item['EndDate']);
   // echo $EndDate. "\n";
   $time_of_day = date("H : i", $EndDate / 1000);
@@ -74,7 +77,12 @@ foreach($listing_list as $item) {
         <li>".$item['Title']."</li>
         <li>".$item['PriceDisplay']."</li>
         <li>Buy Now Price: ".$item['BuyNowPrice']."</li>
-        <li>Ending on: ".date("l d F o ")." at ".$time_of_day."</li>
+        <li>Ending on: ".date("l d F o")." at ".$time_of_day."</li>
+        <li><a href='https://tmsandbox.co.nz/Browse/Listing.aspx?id=".$listing_ID."'>Go to the listing page</a></li>
+        <li>
+        <a class='download' href='favourite.php?id=".$listing_ID."&EndDate=".$EndDate."&Title=".$item['Title']."'>
+        Favourite this listing</a>
+        </li>
       </ul>";
   }
   // $EndDate = preg_replace( '/[^0-9]/', '', $EndDate['Date']);
