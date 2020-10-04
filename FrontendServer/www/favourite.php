@@ -1,3 +1,4 @@
+<?php include "../inc/dbinfo.inc"; ?>
 <meta http-equiv="refresh" content="1; url=http://127.0.0.1:8080">
 <h1>Redirecting...</h1>
 <?php

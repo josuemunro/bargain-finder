@@ -1,3 +1,4 @@
+<?php include "../inc/dbinfo.inc"; ?>
 <!doctype html>
 <html>
 
@@ -29,7 +30,6 @@
   </div>
   <div class="parent">
     <?php
-      include 'dbConfig.php';
         
       $q = $conn->query("SELECT * FROM settings");
     

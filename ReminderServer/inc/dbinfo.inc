@@ -1,7 +1,7 @@
 <?php
 $servername = "192.168.3.11";
-$username = "webuser";
-$password = "insecure_db_pw";
+$username = "admin";
+$password = "secure_db_pw";
 
 try {
   $conn = new PDO("mysql:host=$servername;dbname=josidrive", $username, $password);

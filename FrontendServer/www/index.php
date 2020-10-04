@@ -1,3 +1,4 @@
+<?php include "../inc/dbinfo.inc"; ?>
 <!doctype html>
 <html>
 <head>
@@ -15,7 +16,6 @@
 </div>
 <div class="parent">
 <?php
-include 'dbConfig.php';
 $curl = curl_init();
 $q = $conn->query("SELECT * FROM settings");
 $row = $q->fetch();

@@ -1,7 +1,7 @@
+<?php include "../inc/dbinfo.inc"; ?>
 <meta http-equiv="refresh" content="1; url=http://127.0.0.1:8080">
 <h1>Redirecting...</h1>
 <?php
-include 'dbConfig.php';
 if(isset($_POST["btn"])){
     $search_string = $_POST['search_string'];
     $open_time = $_POST['open_time'];

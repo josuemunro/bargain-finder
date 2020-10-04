@@ -1,3 +1,4 @@
+<?php include "../inc/dbinfo.inc"; ?>
 <!doctype html>
 <html>
 <head>
@@ -10,12 +11,11 @@
   <a href="http://192.168.3.10">
     <img class="logo" src="logo.png">
   </a>
-  <a href="upload.html">Reminder</a>
+  <a href="index.php">Reminder</a>
   <a href="http://192.168.3.12">Admin</a>
 </div>
 <div class="parent">
 <?php
-  include 'dbConfig.php';
     
   $q = $conn->query("SELECT * FROM favourites");
 
