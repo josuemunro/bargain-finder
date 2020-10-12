@@ -24,16 +24,15 @@ $search_string = $row['search_string'];
 $open_time = $row['open_time'];
 $close_time = $row['close_time'];
 
-$url = "https://api.tmsandbox.co.nz/v1/Search/General.json?sort_order=expiry_asc&rows=500&searchString=".$search_string."";
+$url = "https://api.tmsandbox.co.nz/v1/Search/General.json?sort_order=expiry_asc&rows=10&searchString=".$search_string."";
+// $url = "https://api.tmsandbox.co.nz/v1/Search/General.json";
+// echo "<h1>$url</h1>";
 
 $headr = array();
 $headr[] = 'Content-length: 0';
 $headr[] = 'cache-control: no-cache';
 $headr[] = 'Content-type: application/json';
-// Using this header we get a 500 internal error response
 $headr[] = 'Authorization: OAuth oauth_consumer_key=21037302176B01C359C079657F286791, oauth_token=07D475ED350063E906221BA04897F031, oauth_signature_method=PLAINTEXT, oauth_signature=2106B414378CF13D7B900702BF3BCBA0%2616FF498FE034BADA111DE9445B976D06';
-// Using this header we get a 401 unauthorized response
-// $headr[] = 'Authorization: OAuth wrongauthorization';
 
 curl_setopt_array($curl, array(
   CURLOPT_URL => $url,
@@ -69,15 +68,18 @@ $listing_list = $response['List'];
 
 foreach($listing_list as $item) {
   $listing_ID = $item['ListingId'];
-  $EndDate = preg_replace( '/[^0-9]/', '', $item['EndDate']);
+  $EndDate = (preg_replace( '/[^0-9]/', '', $item['EndDate']) + 46800000)/1000;
+  // echo $EndDate;
+  $EndDateFormatted = date("l d F o", $EndDate);
+  // echo $EndDateFormatted;
   // echo $EndDate. "\n";
-  $time_of_day = date("h : i A", $EndDate / 1000);
+  $time_of_day = date("h : i A", $EndDate);
   if (isWithinTimeRange($open_time, $close_time, $time_of_day)){
     echo "<ul style='list-style-type:none;'>
         <li>".$item['Title']."</li>
         <li>".$item['PriceDisplay']."</li>
         <li>Buy Now Price: ".$item['BuyNowPrice']."</li>
-        <li>Ending on: ".date("l d F o", $EndDate / 1000)." at ".$time_of_day."</li>
+        <li>Ending on: ".$EndDateFormatted." at ".$time_of_day."</li>
         <li><a href='https://tmsandbox.co.nz/Browse/Listing.aspx?id=".$listing_ID."'>Go to the listing page</a></li>
         <li>
         <a class='download' href='favourite.php?id=".$listing_ID."&EndDate=".$EndDate."&Title=".$item['Title']."'>
