@@ -24,7 +24,7 @@ $search_string = $row['search_string'];
 $open_time = $row['open_time'];
 $close_time = $row['close_time'];
 
-$url = "https://api.tmsandbox.co.nz/v1/Search/General.json?sort_order=expiry_asc&rows=500&cid=2&searchString=".$search_string."";
+$url = "https://api.tmsandbox.co.nz/v1/Search/General.json?sort_order=expiry_asc&rows=500&searchString=".$search_string."";
 
 $headr = array();
 $headr[] = 'Content-length: 0';
