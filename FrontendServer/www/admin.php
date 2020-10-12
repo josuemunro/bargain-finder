@@ -10,11 +10,11 @@
 
 <body>
   <div class="header">
-    <a href="http://192.168.3.10">
+    <a href="index.php">
       <img class="logo" src="logo.png">
     </a>
-    <a href="http://192.168.3.13">Reminder</a>
-    <a href="http://192.168.3.12">Admin</a>
+    <a href="reminder.php">Reminder</a>
+    <a href="admin.php">Admin</a>
   </div>
   <div class="formparent">
     <form action="setSettings.php" method="post" enctype="multipart/form-data">
