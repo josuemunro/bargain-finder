@@ -71,13 +71,13 @@ foreach($listing_list as $item) {
   $listing_ID = $item['ListingId'];
   $EndDate = preg_replace( '/[^0-9]/', '', $item['EndDate']);
   // echo $EndDate. "\n";
-  $time_of_day = date("H : i", $EndDate / 1000);
+  $time_of_day = date("h : i A", $EndDate / 1000);
   if (isWithinTimeRange($open_time, $close_time, $time_of_day)){
     echo "<ul style='list-style-type:none;'>
         <li>".$item['Title']."</li>
         <li>".$item['PriceDisplay']."</li>
         <li>Buy Now Price: ".$item['BuyNowPrice']."</li>
-        <li>Ending on: ".date("l d F o")." at ".$time_of_day."</li>
+        <li>Ending on: ".date("l d F o", $EndDate / 1000)." at ".$time_of_day."</li>
         <li><a href='https://tmsandbox.co.nz/Browse/Listing.aspx?id=".$listing_ID."'>Go to the listing page</a></li>
         <li>
         <a class='download' href='favourite.php?id=".$listing_ID."&EndDate=".$EndDate."&Title=".$item['Title']."'>
